@@ -10,10 +10,6 @@ const livroSchema = new mongoose.Schema(
     },
     editora: { type: String,
     required: [true, 'A editora é obrigatória'],
-    enum: {
-      values: ["Rocco", "Editora Horizonte", "Editora Tecnologia", "Editora Código", "Editora Backend", "Alta Books"],
-      message: "A editora {VALUE} não é um valor"
-    }
    },
     preco: {
       type: Number

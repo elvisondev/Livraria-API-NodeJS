@@ -1,26 +1,16 @@
-import express from 'express'
-import connectDataBase from './conf/dbConecte.js'
-import routes from './routes/main.js'
-import manipuladorDeErros from "./middlewares/manipuladorDeErros.js"
-import manipulador404 from "./middlewares/manipulador404.js"
+import express from 'express';
+import routes from './routes/main.js';
+import manipuladorDeErros from './middlewares/manipuladorDeErros.js';
+import manipulador404 from './middlewares/manipulador404.js';
 
-const conexao = await connectDataBase()
+const app = express();
 
-conexao.on('erro', erro => {
-  console.log('erro de conexão', erro)
-})
+routes(app);
 
-conexao.once('open', () => {
-  console.log('Conexão com o banco feita com suscesso!')
-})
+// Rota não encontrada
+app.use(manipulador404);
 
-const app = express()
-routes(app)
+// Tratamento centralizado de erros
+app.use(manipuladorDeErros);
 
-// * Inicilização Midware 404
-app.use(manipulador404)
-
-// * Inicialização do Midware
-app.use(manipuladorDeErros)
-
-export default app
+export default app;

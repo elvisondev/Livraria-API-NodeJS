@@ -21,9 +21,9 @@ class LivroController {
     const ID = req.params.id;
     try {
       const buscarLivroID = await livro
-      .findById(ID)
-      .setOptions({autopopulate: false})
-      .populate("autor")
+        .findById(ID)
+        .setOptions({ autopopulate: false })
+        .populate('autor');
       if (buscarLivroID !== null) {
         res.status(HTTP_STATUS.OK).json(buscarLivroID);
       } else {
@@ -151,7 +151,7 @@ class LivroController {
         if (!autorNome) {
           return res.status(HTTP_STATUS.OK).json([]);
         }
-        busca['autor._id'] = autorNome._id;
+        busca.$or = [{ autor: autorNome._id }, { 'autor._id': autorNome._id }];
       }
 
       req.resultado = livro.find(busca);
